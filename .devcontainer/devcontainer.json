@@ -1,6 +1,0 @@
-{
-  "name": "vscode-in-docker",
-  "build": {
-    "dockerfile": "Dockerfile"
-  }
-}
