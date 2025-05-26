@@ -1,6 +1,7 @@
 import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.utils import timezone
 
 class UserManager(BaseUserManager):
     def create_user(self, email, full_name, password=None, **extra_fields):
@@ -33,7 +34,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False)  # New field for email verification
     date_joined = models.DateTimeField(auto_now_add=True)
+    last_login = models.DateTimeField(null=True, blank=True)  # Track last login
 
     objects = UserManager()
 
@@ -42,3 +45,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+    def has_active_subscription(self):
+        from subscription_app.models import UserSubscription
+        return self.user_subscriptions.filter(
+            is_active=True,
+            expires_at__gt=timezone.now()
+        ).exists()

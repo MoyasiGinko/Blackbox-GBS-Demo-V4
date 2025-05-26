@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Service, UserService
+from .models import Service
+from cookie_management_app.models import UserService
 
 class ServiceSerializer(serializers.ModelSerializer):
     class Meta:

@@ -1,0 +1,282 @@
+{
+  "info": {
+    "name": "Backend API Test Collection",
+    "_postman_id": "12345678-abcd-efgh-ijkl-1234567890ab",
+    "description": "Postman collection to test backend APIs for user journey and admin workflow",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Register User",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"user@example.com\",\n  \"full_name\": \"Test User\",\n  \"password\": \"password123\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/auth_app/register/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["auth_app", "register", ""]
+        }
+      }
+    },
+    {
+      "name": "Login User",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"password123\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/auth_app/login/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["auth_app", "login", ""]
+        }
+      }
+    },
+    {
+      "name": "Get User Profile",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8000/auth_app/profile/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["auth_app", "profile", ""]
+        }
+      }
+    },
+    {
+      "name": "List Available Services",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8000/service_app/available-services/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["service_app", "available-services", ""]
+        }
+      }
+    },
+    {
+      "name": "Request Service Access",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"service_id\": 1\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/service_app/request-service-access/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["service_app", "request-service-access", ""]
+        }
+      }
+    },
+    {
+      "name": "List Subscription Plans",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8000/subscription_app/subscriptions/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["subscription_app", "subscriptions", ""]
+        }
+      }
+    },
+    {
+      "name": "Purchase Subscription",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"subscription_plan\": 1,\n  \"duration_days\": 30\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/subscription_app/subscriptions/purchase/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["subscription_app", "subscriptions", "purchase", ""]
+        }
+      }
+    },
+    {
+      "name": "Create Payment",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": 100.0,\n  \"subscription\": 1\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/payment_app/payments/create/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["payment_app", "payments", "create", ""]
+        }
+      }
+    },
+    {
+      "name": "Add Login Service (Admin)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{admin_access_token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Example AI Tool\",\n  \"login_url\": \"https://example.com/login\",\n  \"username_field\": \"username\",\n  \"password_field\": \"password\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/cookie_management_app/login_services/add/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["cookie_management_app", "login_services", "add", ""]
+        }
+      }
+    },
+    {
+      "name": "List Pending User Service Requests (Admin)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{admin_access_token}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8000/cookie_management_app/user-service-requests/pending/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["cookie_management_app", "user-service-requests", "pending", ""]
+        }
+      }
+    },
+    {
+      "name": "Approve User Service Request (Admin)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{admin_access_token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8000/cookie_management_app/user-service-requests/1/approve/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["cookie_management_app", "user-service-requests", "1", "approve", ""]
+        }
+      }
+    },
+    {
+      "name": "Get Cookie Data",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8000/cookie_management_app/cookies/uuid-goes-here/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["cookie_management_app", "cookies", "uuid-goes-here", ""]
+        }
+      }
+    }
+  ]
+}

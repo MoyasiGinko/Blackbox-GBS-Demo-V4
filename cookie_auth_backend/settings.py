@@ -1,18 +1,26 @@
+"""
+Django settings for Blackbox-GBS-Demo-V2 project.
+"""
+
 import os
 from pathlib import Path
-from datetime import timedelta
 
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'your-secret-key'  # Change this in production
+SECRET_KEY = 'your-secret-key'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '.csb.app']
+ALLOWED_HOSTS = ['*']
 
-CSRF_TRUSTED_ORIGINS = [
-    "https://vyprzc-8000.csb.app",
+CORS_ALLOWED_ORIGINS = [
+"https://ntvpp5-3000.csb.app",
 ]
+
+CORS_ALLOW_CREDENTIALS = True
+
+# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -21,21 +29,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'rest_framework',
-    'rest_framework_simplejwt',
-    'corsheaders',
-
-    'core',
     'drf_yasg',
+    'auth_app',
+    'service_app',
+    'subscription_app',
+    'payment_app',
+    'cookie_management_app',
+    'core',
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'cookie_auth_backend.middleware.CsrfExemptMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -62,12 +69,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'cookie_auth_backend.wsgi.application'
 
+# Database
+# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# Password validation
+# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -84,6 +97,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Internationalization
+# https://docs.djangoproject.com/en/4.2/topics/i18n/
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -92,31 +108,18 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/4.2/howto/static-files/
+
 STATIC_URL = '/static/'
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'core.User'
+# Custom user model
+AUTH_USER_MODEL = 'auth_app.User'
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
-}
-
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
-    'ROTATE_REFRESH_TOKENS': True,
-    'BLACKLIST_AFTER_ROTATION': True,
-    'AUTH_HEADER_TYPES': ('Bearer',),
-}
-
-CORS_ALLOW_ALL_ORIGINS = True
-
-CELERY_BROKER_URL = os.getenv('REDIS_URL', 'redis://localhost:6379/0')
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
+# Add trusted origins for CSRF
+CSRF_TRUSTED_ORIGINS = ['https://ntvpp5-8000.csb.app']
