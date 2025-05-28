@@ -256,7 +256,7 @@ class SubscriptionEndpointTester:
             print(f"✅ Admin subscriptions list successful - Found {len(subscriptions)} subscriptions")
             if subscriptions:
                 sub = subscriptions[0]
-                print(f"   Latest: User {sub['user']} - Plan {sub['subscription']['name']}")
+                print(f"   Latest: User {sub['user_email']} - Plan {sub['subscription']['name']}")
             return True
         else:
             print(f"❌ Admin subscriptions list failed: {response.status_code}")
