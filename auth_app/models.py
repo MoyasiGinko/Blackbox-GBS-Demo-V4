@@ -52,3 +52,24 @@ class User(AbstractBaseUser, PermissionsMixin):
             is_active=True,
             expires_at__gt=timezone.now()
         ).exists()
+
+    def get_accessible_services(self):
+        """Get all services user has access to through active subscriptions"""
+        from subscription_app.models import UserSubscription
+        from service_app.models import Service
+
+        active_subscriptions = self.user_subscriptions.filter(
+            is_active=True,
+            expires_at__gt=timezone.now()
+        )
+
+        service_ids = set()
+        for subscription in active_subscriptions:
+            if subscription.selected_services.exists():
+                # User selected specific services
+                service_ids.update(subscription.selected_services.values_list('id', flat=True))
+            else:
+                # User gets access to all services in the plan
+                service_ids.update(subscription.subscription.services.values_list('id', flat=True))
+
+        return Service.objects.filter(id__in=service_ids, is_active=True)
