@@ -2,13 +2,13 @@ import uuid
 from django.db import models
 
 class Service(models.Model):
-    CATEGORY_CHOICES = [
-        ('ai_chat', 'AI Chat'),
-        ('ai_image', 'AI Image'),
-        ('seo', 'SEO Tools'),
-        ('analytics', 'Analytics'),
-        ('other', 'Other')
-    ]
+    # CATEGORY_CHOICES = [
+    #     ('ai_chat', 'AI Chat'),
+    #     ('ai_image', 'AI Image'),
+    #     ('seo', 'SEO Tools'),
+    #     ('analytics', 'Analytics'),
+    #     ('other', 'Other')
+    # ]
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=50, unique=True)
@@ -16,7 +16,7 @@ class Service(models.Model):
     login_url = models.URLField()
     description = models.TextField()
     logo_url = models.URLField(null=True, blank=True)
-    category = models.CharField(max_length=30, choices=CATEGORY_CHOICES)
+    category = models.CharField(max_length=30)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
